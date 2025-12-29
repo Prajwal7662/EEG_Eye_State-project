@@ -118,9 +118,21 @@ if uploaded_file:
     else:
         scaled_data = scaler.transform(data[FEATURE_NAMES])
         predictions = model.predict(scaled_data)
-data["Eye_State_Prediction"] = np.where(
-    predictions == 1, "Open", "Closed"
-)
+
+        # ✅ FIX HERE
+        data["Eye_State_Prediction"] = np.where(
+            predictions == 1, "Open", "Closed"
+        )
+
+        st.success("✅ Prediction Completed")
+        st.dataframe(data)
+
+        st.download_button(
+            "⬇ Download Results",
+            data.to_csv(index=False),
+            file_name="EEG_Eye_State_Predictions.csv",
+            mime="text/csv"
+        )
 
         
 
