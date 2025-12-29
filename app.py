@@ -114,7 +114,7 @@ uploaded_file = st.file_uploader(
     type=["csv"]
 )
 
-if uploaded_file:
+if uploaded_file is not None:
     data = pd.read_csv(uploaded_file)
 
     missing_cols = set(FEATURE_NAMES) - set(data.columns)
@@ -131,12 +131,14 @@ if uploaded_file:
         st.success("✅ Prediction Completed")
         st.dataframe(data)
 
+        csv_data = data.to_csv(index=False).encode("utf-8")
+
         st.download_button(
             label="⬇ Download Results",
-            data=data.to_csv(index=False),
+            data=csv_data,
             file_name="EEG_Eye_State_Predictions.csv",
             mime="text/csv",
-            key="download_eeg_results"   # ✅ FIX
+            key="download_results_unique"  # 🔑 MUST BE UNIQUE
         )
 
     # Validate columns
