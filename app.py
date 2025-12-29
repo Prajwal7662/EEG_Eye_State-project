@@ -115,6 +115,28 @@ uploaded_file = st.file_uploader(
 if uploaded_file:
     data = pd.read_csv(uploaded_file)
 
+    missing_cols = set(FEATURE_NAMES) - set(data.columns)
+    if missing_cols:
+        st.error(f"❌ Missing columns: {missing_cols}")
+    else:
+        scaled_data = scaler.transform(data[FEATURE_NAMES])
+        predictions = model.predict(scaled_data)
+
+        data["Eye_State_Prediction"] = np.where(
+            predictions == 1, "Open", "Closed"
+        )
+
+        st.success("✅ Prediction Completed")
+        st.dataframe(data)
+
+        st.download_button(
+            label="⬇ Download Results",
+            data=data.to_csv(index=False),
+            file_name="EEG_Eye_State_Predictions.csv",
+            mime="text/csv",
+            key="download_eeg_results"   # ✅ FIX
+        )
+
     # Validate columns
     missing_cols = set(FEATURE_NAMES) - set(data.columns)
     if missing_cols:
