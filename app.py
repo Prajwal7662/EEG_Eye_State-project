@@ -7,6 +7,18 @@ import matplotlib.pyplot as plt
 # ===============================
 # Load Model & Scaler
 # ===============================
+import os
+import streamlit as st
+import joblib
+
+if not os.path.exists("eye_state_model.pkl"):
+    st.error("❌ Model file not found")
+    st.stop()
+
+if not os.path.exists("scaler.pkl"):
+    st.error("❌ Scaler file not found")
+    st.stop()
+
 model = joblib.load("eye_state_model.pkl")
 scaler = joblib.load("scaler.pkl")
 
