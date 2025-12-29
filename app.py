@@ -55,18 +55,18 @@ st.markdown(
 # ===============================
 # Sidebar Inputs
 # ===============================
-st.sidebar.header("🎛 EEG Signal Inputs (-5 to 10)")
-st.sidebar.caption("Values represent normalized EEG features")
+st.sidebar.header("🎛 EEG Signal Inputs (-5000 to 5000)")
+st.sidebar.caption("Values represent raw EEG signal amplitudes")
 
 inputs = []
 for feature in FEATURE_NAMES:
     value = st.sidebar.number_input(
         label=feature,
-        min_value=-5.0,
-        max_value=10.0,
+        min_value=-5000.0,
+        max_value=5000.0,
         value=0.0,
-        step=0.1,
-        format="%.2f"
+        step=50.0,
+        format="%.1f"
     )
     inputs.append(value)
 
@@ -94,14 +94,14 @@ if st.sidebar.button("🔍 Predict Eye State"):
     with col2:
         st.metric("Confidence", f"{confidence:.2f}%")
 
-    # Detailed probabilities (clear & correct)
+    # Show both probabilities for clarity
     st.write(
         f"😴 Closed: **{probs[0]*100:.2f}%** | "
         f"👀 Open: **{probs[1]*100:.2f}%**"
     )
 
     if abs(probs[0] - probs[1]) < 0.10:
-        st.warning("⚠ Low confidence prediction (inputs near average EEG)")
+        st.warning("⚠ Low confidence prediction")
 
 # ===============================
 # Footer
@@ -113,4 +113,3 @@ st.markdown(
     "</p>",
     unsafe_allow_html=True
 )
-
