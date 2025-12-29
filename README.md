@@ -9,6 +9,7 @@
 
 An end-to-end **Machine Learning web application** that predicts whether a person’s **eyes are OPEN or CLOSED** using **EEG signal features**, deployed using **Streamlit**.
 
+Streamlit App Link = https://egjpbeie7cnz7v2ctyijtb.streamlit.app/
 ---
 
 ## ✨ Highlights
