@@ -64,7 +64,11 @@ if st.sidebar.button("🔍 Predict Eye State"):
     input_scaled = scaler.transform(input_array)
 
     prediction = model.predict(input_scaled)[0]
-    confidence = np.max(model.predict_proba(input_scaled)) * 100
+   probs = model.predict_proba(input_scaled)[0]
+prediction = model.predict(input_scaled)[0]
+
+confidence = probs[prediction] * 100
+
 
     st.subheader("📊 Prediction Result")
 
