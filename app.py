@@ -34,7 +34,7 @@ st.markdown(
     """
     <h1 style='text-align:center;'>🧠 EEG Eye State Detection App</h1>
     <p style='text-align:center; font-size:18px;'>
-    Predict whether the eyes are <b>OPEN</b> or <b>CLOSED</b> using EEG signals
+        Predict whether the eyes are <b>OPEN</b> or <b>CLOSED</b> using EEG signals
     </p>
     """,
     unsafe_allow_html=True
