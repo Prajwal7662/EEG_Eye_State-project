@@ -118,10 +118,11 @@ if uploaded_file:
     else:
         scaled_data = scaler.transform(data[FEATURE_NAMES])
         predictions = model.predict(scaled_data)
+data["Eye_State_Prediction"] = np.where(
+    predictions == 1, "Open", "Closed"
+)
 
-        data["Eye_State_Prediction"] = predictions.map(
-            {0: "Closed", 1: "Open"}
-        )
+        
 
         st.success("✅ Prediction Completed")
         st.dataframe(data)
