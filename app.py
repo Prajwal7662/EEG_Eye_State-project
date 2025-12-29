@@ -42,19 +42,21 @@ st.markdown(
 # ===============================
 # Sidebar Inputs
 # ===============================
-st.sidebar.header("🎛 EEG Signal Inputs")
+st.sidebar.header("🎛 EEG Signal Inputs (-5 to 10)")
 
 inputs = []
+
 for feature in FEATURE_NAMES:
     value = st.sidebar.number_input(
-        feature,
-        min_value=-10000.0,
-        max_value=10000.0,
+        label=feature,
+        min_value=-5.0,
+        max_value=10.0,
         value=0.0,
-        step=1.0,
+        step=0.1,
         format="%.2f"
     )
     inputs.append(value)
+
 
 # ===============================
 # Prediction Section
