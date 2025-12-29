@@ -44,12 +44,19 @@ The trained model and scaler are saved as `.pkl` files and deployed via a **Stre
 ---
 
 ## 📂 Project Structure
+
 EEG_Eye_State_Streamlit_App/
+
 │
+
 ├── app.py # Streamlit application
+
 ├── eye_state_model.pkl # Trained Random Forest model
+
 ├── scaler.pkl # Feature scaler
+
 ├── requirements.txt # Dependencies
+
 └── README.md # Documentation
 
 ---
