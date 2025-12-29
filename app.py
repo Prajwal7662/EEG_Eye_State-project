@@ -1,47 +1,55 @@
 import streamlit as st
 import numpy as np
-import pandas as pd
 import joblib
 
-# Load trained model and scaler
+# Load model & scaler
 model = joblib.load("eye_state_model.pkl")
 scaler = joblib.load("scaler.pkl")
 
-# Page configuration
-st.set_page_config(page_title="EEG Eye State Detection", layout="centered")
+# Page config
+st.set_page_config(
+    page_title="EEG Eye State Detection",
+    layout="wide"
+)
 
-# App title
+# Title
 st.title("🧠 EEG Eye State Detection App")
-st.write("This app predicts whether the **eyes are OPEN or CLOSED** using EEG signals.")
+st.write("Predict whether the eyes are **OPEN** or **CLOSED** using EEG signals.")
 
-# Sidebar for input
-st.sidebar.header("Enter EEG Feature Values")
+# EEG Feature Names (REAL)
+FEATURE_NAMES = [
+    "AF3", "F7", "F3", "FC5", "T7", "P7", "O1",
+    "O2", "P8", "T8", "FC6", "F4", "F8", "AF4"
+]
 
-# Number of EEG features (dataset dependent)
-NUM_FEATURES = 14   # update if required
+st.sidebar.header("🎛 EEG Signal Inputs")
 
-input_features = []
-for i in range(NUM_FEATURES):
+inputs = []
+
+for feature in FEATURE_NAMES:
     value = st.sidebar.number_input(
-        f"EEG Feature {i+1}",
+        label=f"{feature}",
+        min_value=-10000.0,     # allow wide EEG range
+        max_value=10000.0,
         value=0.0,
-        format="%.4f"
+        step=1.0,               # 👈 FIX: no more 0.0001 lock
+        format="%.2f"
     )
-    input_features.append(value)
+    inputs.append(value)
 
-# Prediction
-if st.sidebar.button("Predict Eye State"):
-    input_array = np.array(input_features).reshape(1, -1)
+# Predict button
+if st.sidebar.button("🔍 Predict Eye State"):
+    input_array = np.array(inputs).reshape(1, -1)
     input_scaled = scaler.transform(input_array)
 
     prediction = model.predict(input_scaled)[0]
-    probability = model.predict_proba(input_scaled)[0]
+    confidence = np.max(model.predict_proba(input_scaled)) * 100
 
-    st.subheader("Prediction Result")
+    st.subheader("📊 Prediction Result")
 
     if prediction == 1:
         st.success("👀 Eyes are **OPEN**")
     else:
         st.error("😴 Eyes are **CLOSED**")
 
-    st.write(f"Confidence: **{np.max(probability) * 100:.2f}%**")
+    st.write(f"**Confidence:** {confidence:.2f}%")
